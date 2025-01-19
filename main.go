@@ -1,7 +1,40 @@
 package main
 
-import "fmt"
+import (
+	"cTube/configs"
+	"cTube/handlers"
+	"cTube/repository"
+	"cTube/router"
+	"cTube/services"
+	"cTube/utils"
+	"fmt"
+	"time"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	db, err := configs.ConnectToDB()
+	if err != nil {
+		fmt.Errorf("error connecting to database: %v", err)
+	}
+
+	defer db.Close()
+	videoRepo := repository.NewVideoRepository(db)
+	videoService := services.NewVideoService(videoRepo)
+	videoHandler := handlers.NewVideoHandler(videoService)
+
+	go func() {
+		apiKey := "YOUR_YOUTUBE_API_KEY"
+		for {
+			videos, err := utils.FetchYouTubeVideos(apiKey, "cricket")
+			if err == nil {
+				for _, video := range videos {
+					videoService.SaveVideo(video)
+				}
+			}
+			time.Sleep(10 * time.Second)
+		}
+	}()
+
+	router := router.SetUpRouter(videoHandler)
+	router.Run(":8080")
 }
