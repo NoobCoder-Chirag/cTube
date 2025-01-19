@@ -17,7 +17,7 @@ func (s *VideoService) GetVideos(offset, limit int, sortOrder string) ([]models.
 	return s.Repo.GetVideos(offset, limit, sortOrder)
 }
 
-func (s *VideoService) SaveVideo(video models.Video) error {
+func (s *VideoService) SaveVideo(video models.YouTubeVideo) error {
 	return s.Repo.InsertVideo(video)
 }
 

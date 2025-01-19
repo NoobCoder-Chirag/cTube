@@ -5,6 +5,7 @@ import (
 	"cTube/models"
 	"database/sql"
 	"fmt"
+	"github.com/google/uuid"
 )
 
 type VideoRepository struct {
@@ -34,15 +35,22 @@ func (repo *VideoRepository) GetVideos(offset, limit int, sortOrder string) ([]m
 	return videos, nil
 }
 
-func (repo *VideoRepository) InsertVideo(video models.Video) error {
-	fmt.Println("hii")
+func (repo *VideoRepository) InsertVideo(video models.YouTubeVideo) error {
 	query := constants.InsertVideo
-	_, err := repo.DB.Exec(query, video.Title, video.Description, video.PublishedAt, video.Thumbnail)
+	videoWithId := models.Video{
+		ID:          uuid.New().String(),
+		Title:       video.Title,
+		Description: video.Description,
+		PublishedAt: video.PublishedAt,
+		Thumbnail:   video.Thumbnail,
+	}
+	_, err := repo.DB.Exec(query, videoWithId.Title, videoWithId.Description, videoWithId.PublishedAt, videoWithId.Thumbnail)
 	if err != nil {
 		fmt.Errorf("error inserting video %v", err)
 		return err
 	}
 
+	fmt.Println("video saved")
 	return nil
 }
 

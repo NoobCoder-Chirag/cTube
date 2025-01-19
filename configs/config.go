@@ -16,6 +16,7 @@ var (
 
 func ConnectToDB() (*sql.DB, error) {
 
+	fmt.Println("Connecting to DB...")
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
@@ -25,5 +26,6 @@ func ConnectToDB() (*sql.DB, error) {
 	}
 	defer db.Close()
 
+	fmt.Println("Successfully connected to database")
 	return db, nil
 }
