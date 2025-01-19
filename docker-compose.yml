@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    command: sh -c "migrate -path db/migrations -database $DATABASE_URL up && go run main.go"
+    environment:
+      - DATABASE_URL=postgres://<username>:<password>@db:5432/<dbname>?sslmode=disable
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres.xmiebvtzreuumwzizwbv
+      POSTGRES_PASSWORD: pass@Supabase0
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
