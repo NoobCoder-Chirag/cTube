@@ -25,7 +25,7 @@ func main() {
 	go func() {
 		apiKey := "YOUR_YOUTUBE_API_KEY"
 		for {
-			videos, err := utils.FetchYouTubeVideos(apiKey, "cricket")
+			videos, err := utils.FetchYouTubeVideos(apiKey, "hiphop")
 			if err == nil {
 				for _, video := range videos {
 					videoService.SaveVideo(video)
