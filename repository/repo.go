@@ -17,7 +17,7 @@ func NewVideoRepository(db *sql.DB) *VideoRepository {
 
 func (repo *VideoRepository) GetVideos(offset, limit int, sortOrder string) ([]models.Video, error) {
 	query := constants.GetVideos
-	rows, err := repo.DB.Query(query, limit, offset)
+	rows, err := repo.DB.Query(query, sortOrder, limit, offset)
 	if err != nil {
 		return nil, err
 	}
