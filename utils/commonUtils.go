@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func FetchYouTubeVideos(apiKey, query string) ([]models.YouTubeVideo, error) {
@@ -23,20 +24,24 @@ func FetchYouTubeVideos(apiKey, query string) ([]models.YouTubeVideo, error) {
 	// Map the response to a slice of YouTubeVideo
 	videos := []models.YouTubeVideo{}
 	for _, item := range apiResponse.Items {
+		publishedAtTime, err := parseTime(item.Snippet.PublishedAt)
+		if err != nil {
+			fmt.Printf("failed to parse published at time: %v", err)
+		}
 		videos = append(videos, models.YouTubeVideo{
 			Title:       item.Snippet.Title,
 			Description: item.Snippet.Description,
-			PublishedAt: item.Snippet.PublishedAt,
+			PublishedAt: publishedAtTime,
 			Thumbnail:   item.Snippet.Thumbnails.Default.URL,
 		})
 	}
 	return videos, nil
 }
 
-//func parseTime(t string) (time.Time, error) {
-//	parsed, err := time.Parse(time.RFC3339, t)
-//	if err != nil {
-//		fmt.Errorf("error parsing time: %v", err)
-//	}
-//	return parsed, nil
-//}
+func parseTime(t string) (time.Time, error) {
+	parsed, err := time.Parse(time.RFC3339, t)
+	if err != nil {
+		fmt.Errorf("error parsing time: %v", err)
+	}
+	return parsed, nil
+}
