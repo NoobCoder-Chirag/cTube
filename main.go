@@ -2,6 +2,7 @@ package main
 
 import (
 	"cTube/configs"
+	"cTube/constants"
 	"cTube/handlers"
 	"cTube/repository"
 	"cTube/router"
@@ -23,7 +24,7 @@ func main() {
 	videoHandler := handlers.NewVideoHandler(videoService)
 
 	go func() {
-		apiKey := "YOUR_YOUTUBE_API_KEY"
+		apiKey := constants.YoutubeDataApiKey
 		for {
 			videos, err := utils.FetchYouTubeVideos(apiKey, "hiphop")
 			if err == nil {
