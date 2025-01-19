@@ -5,5 +5,5 @@ const (
 	Page              = "page"
 	SortOrder         = "sortOrder"
 	Keyword           = "keyword"
-	YoutubeDataApiKey = "AIzaSyAOdwpAHbYKsLw-8IZ6SVBa5oKWslkH_Wk"
+	YoutubeDataApiKey = "AIzaSyCjfv6pwNGJAe8e3g8Mr_jaetOfI8T_z7U"
 )

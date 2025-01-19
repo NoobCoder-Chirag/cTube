@@ -44,7 +44,11 @@ func (repo *VideoRepository) InsertVideo(video models.YouTubeVideo) error {
 		PublishedAt: video.PublishedAt,
 		Thumbnail:   video.Thumbnail,
 	}
-	_, err := repo.DB.Exec(query, videoWithId.Title, videoWithId.Description, videoWithId.PublishedAt, videoWithId.Thumbnail)
+
+	result, err := repo.DB.Exec(query, videoWithId.ID, videoWithId.Title, videoWithId.Description, videoWithId.PublishedAt, videoWithId.Thumbnail)
+
+	fmt.Println("checkpoint 2")
+	fmt.Println(result)
 	if err != nil {
 		fmt.Errorf("error inserting video %v", err)
 		return err
