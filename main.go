@@ -13,7 +13,9 @@ import (
 )
 
 func main() {
+	fmt.Println("hii")
 	db, err := configs.ConnectToDB()
+	fmt.Println("hii again")
 	if err != nil {
 		fmt.Errorf("error connecting to database: %v", err)
 	}
@@ -29,6 +31,7 @@ func main() {
 			videos, err := utils.FetchYouTubeVideos(apiKey, "hiphop")
 			if err == nil {
 				for _, video := range videos {
+					fmt.Println("videos are being saved")
 					videoService.SaveVideo(video)
 				}
 			}

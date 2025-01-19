@@ -3,14 +3,27 @@ package configs
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
+)
+
+var (
+	host     = "monorail.proxy.rlwy.net"
+	port     = "48730"
+	user     = "postgres"
+	password = "LAxsyKTnIbUZjuXUWXCAfyZhYSjfFIKk"
+	dbname   = "railway"
 )
 
 func ConnectToDB() (*sql.DB, error) {
-	connStr := "postgresql://postgres:LAxsyKTnIbUZjuXUWXCAfyZhYSjfFIKk@postgres.railway.internal:5432/railway"
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		fmt.Errorf("error connecting to database: %v", err)
-	}
 
-	return db, err
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	return db, nil
 }

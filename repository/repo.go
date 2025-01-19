@@ -35,6 +35,7 @@ func (repo *VideoRepository) GetVideos(offset, limit int, sortOrder string) ([]m
 }
 
 func (repo *VideoRepository) InsertVideo(video models.Video) error {
+	fmt.Println("hii")
 	query := constants.InsertVideo
 	_, err := repo.DB.Exec(query, video.Title, video.Description, video.PublishedAt, video.Thumbnail)
 	if err != nil {
